@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: bdb0f812c5353be48a56c526108abe3d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - TileSpawnPoint: {fileID: 1748537658173778794, guid: 61cb863ccab7805448a17983d261a98d,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
