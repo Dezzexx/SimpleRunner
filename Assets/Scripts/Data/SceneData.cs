@@ -5,6 +5,6 @@ namespace Client{
     sealed class SceneData : MonoBehaviour{
         public List<GameObject> UsedTileList = new List<GameObject>();
         public Vector3 TileSpawnPoint;
-        public bool isGameEnable;
+        public bool isGameActive;
     }
 }

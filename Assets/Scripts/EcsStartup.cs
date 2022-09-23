@@ -10,29 +10,53 @@ namespace Client {
         [SerializeField] private SceneData _sceneData;
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private GameObject _winPanel;
+
         private EcsWorld _world;        
-        private IEcsSystems _systems;
+        private IEcsSystems _initSystems;
+        private IEcsSystems _fixedUpdateSystems;
+        private IEcsSystems _gameActiveSystems;
+        private IEcsSystems _gameNotActiveSystems;
 
         private void Start () {
-            Time.timeScale = 1;
+            _sceneData.isGameActive = true;
+
             var hudDisplayService = new HUDDisplayService();
             hudDisplayService.Text = _text;
             hudDisplayService.WinPanel = _winPanel;
-
+            
             _world = new EcsWorld ();
-            _systems = new EcsSystems (_world, hudDisplayService);
-
-
-            _systems
-                .Add (new TileInitSystem())
+            _initSystems = new EcsSystems (_world, hudDisplayService);
+            _fixedUpdateSystems = new EcsSystems (_world);
+            _gameActiveSystems = new EcsSystems(_world, hudDisplayService);
+            _gameNotActiveSystems = new EcsSystems(_world, hudDisplayService);
+            
+            _gameActiveSystems
                 .Add (new TileMoveSystem())
                 .Add (new TileSpawnSystem())
-                .Add (new PlayerInitSystem())
                 .Add (new CollectibleRunSystem())
-                .Add (new TouchInitSystem())
-                .Add (new TouchControlSystem())
-                .Add (new WInInitSystem())
+                // .Add (new ParticleRunSystem())
+
+                .DelHere<CollectEvent>()
+                .Inject(_staticData, _sceneData, hudDisplayService)
+                .Init();
+
+            _gameNotActiveSystems
                 .Add (new WinSystem())
+
+                .Inject(_sceneData, hudDisplayService)
+                .Init();
+
+            _fixedUpdateSystems
+                .Add (new TouchControlSystem())
+
+                .Inject(_staticData, _sceneData, hudDisplayService)
+                .Init();
+
+            _initSystems
+                .Add (new TileInitSystem())
+                .Add (new PlayerInitSystem())
+                .Add (new WinInitSystem())
+                // .Add (new ParticleInitSystem())
                 
                 // register additional worlds here, for example:
                 // .AddWorld (new EcsWorld (), "events")
@@ -41,23 +65,54 @@ namespace Client {
                 // .Add (new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem ("events"))
                 .Add (new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem ())
 #endif
-                .DelHere<CollectEvent>()
+                // .DelHere<CollectEvent>()
+                // .DelHere<ParticleComponent>()
                 .Inject(_staticData, _sceneData, hudDisplayService)
                 .Init();
         }
 
         private void Update () {
-            // process systems here.
-            _systems?.Run ();
+            _initSystems?.Run();
+
+            // if (!_sceneData.isGameActive == false) {
+            //     _gameNotActiveSystems?.Run();
+            // }
+            // if (_sceneData.isGameActive == true) {
+            //     _gameActiveSystems?.Run();
+            // }
+            if (!_sceneData.isGameActive == false) {
+                _gameNotActiveSystems?.Run();
+            }
+            if (_sceneData.isGameActive) {
+                _gameActiveSystems?.Run();
+            }
+        }
+
+        private void FixedUpdate() {
+            if(_sceneData.isGameActive) {
+                _fixedUpdateSystems?.Run();
+            }
         }
 
         private void OnDestroy () {
             // list of custom worlds will be cleared
             // during IEcsSystems.Destroy(). so, you
             // need to save it here if you need.
-            _systems?.Destroy ();
-            _systems?.GetWorld ()?.Destroy ();
-            _systems = null;
+            _initSystems?.Destroy();
+            _initSystems?.GetWorld()?.Destroy();
+            _initSystems = null;
+
+            _gameActiveSystems?.Destroy();
+            _gameActiveSystems?.GetWorld()?.Destroy();
+            _gameActiveSystems = null;
+
+            _gameNotActiveSystems?.Destroy();
+            _gameNotActiveSystems?.GetWorld()?.Destroy();
+            _gameNotActiveSystems = null;           
+
+            _fixedUpdateSystems?.Destroy();
+            _fixedUpdateSystems?.GetWorld()?.Destroy();
+            _fixedUpdateSystems = null;
 
             // cleanup custom worlds here.
             

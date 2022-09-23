@@ -155,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UsedTileList: []
   TileSpawnPoint: {x: 0, y: 0, z: 0}
-  isGameEnable: 0
+  isGameActive: 0
 --- !u!4 &369802459
 Transform:
   m_ObjectHideFlags: 0
