@@ -3,7 +3,7 @@ using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace Client {
-    sealed class PlayerInitSystem : IEcsPreInitSystem {
+    sealed class PlayerInitSystem : IEcsInitSystem {
         readonly EcsPoolInject<PlayerComponent> _playerComponentPool = default;
         readonly EcsWorldInject _world = default;
         
@@ -11,7 +11,7 @@ namespace Client {
         private float _maxLeftBound = -10f;
         private float _maxRightBound = -3f;
         
-        public void PreInit (IEcsSystems systems) {
+        public void Init (IEcsSystems systems) {
             var entity = _world.Value.NewEntity();
             var playerView = GameObject.FindGameObjectWithTag("Player");
 

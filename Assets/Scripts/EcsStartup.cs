@@ -65,7 +65,6 @@ namespace Client {
                 // .Add (new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem ("events"))
                 .Add (new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem ())
 #endif
-                // .DelHere<CollectEvent>()
                 // .DelHere<ParticleComponent>()
                 .Inject(_staticData, _sceneData, hudDisplayService)
                 .Init();
@@ -74,12 +73,6 @@ namespace Client {
         private void Update () {
             _initSystems?.Run();
 
-            // if (!_sceneData.isGameActive == false) {
-            //     _gameNotActiveSystems?.Run();
-            // }
-            // if (_sceneData.isGameActive == true) {
-            //     _gameActiveSystems?.Run();
-            // }
             if (!_sceneData.isGameActive == false) {
                 _gameNotActiveSystems?.Run();
             }

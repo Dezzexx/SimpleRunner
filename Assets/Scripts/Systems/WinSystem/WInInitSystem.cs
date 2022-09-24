@@ -4,7 +4,6 @@ using Leopotam.EcsLite.Di;
 namespace Client {
     sealed class WinInitSystem : IEcsInitSystem {
         readonly EcsPoolInject<WinComponent> _winComponent = default;
-        readonly EcsCustomInject<SceneData> _sceneData = default;
         readonly EcsWorldInject _world = default;
 
         private int _valueForVictory = 0;  

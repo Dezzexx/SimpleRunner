@@ -6,6 +6,7 @@ namespace Client {
         public TextMeshProUGUI Text;
         public GameObject WinPanel;
         public GameObject StartPanel;
+        public GameObject BloodSplatter;
         public int GoalBrainEating = 15;
     }
 }
