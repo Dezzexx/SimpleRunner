@@ -34,6 +34,9 @@ namespace Client {
                 .Add (new TileMoveSystem())
                 .Add (new TileSpawnSystem())
                 .Add (new CollectibleRunSystem())
+                .Add (new TimerSystem())
+                .Add (new BrainSpawnSystem()) 
+                .Add (new BrainMoveSystem())
                 // .Add (new ParticleRunSystem())
 
                 .DelHere<CollectEvent>()
@@ -56,6 +59,8 @@ namespace Client {
                 .Add (new TileInitSystem())
                 .Add (new PlayerInitSystem())
                 .Add (new WinInitSystem())
+                .Add (new TimerInitSystem())
+                .Add (new BrainInitSystem())
                 // .Add (new ParticleInitSystem())
                 
                 // register additional worlds here, for example:
