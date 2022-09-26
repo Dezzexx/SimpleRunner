@@ -7,8 +7,8 @@ namespace Client {
         readonly EcsFilterInject<Inc<PlayerComponent>> _filter = default;
         readonly EcsPoolInject<PlayerComponent> _playerComponentPool = default;
 
-        private Vector2 startPos;
-        private Vector2 direction;
+        private Vector2 _startPos;
+        private Vector2 _direction;
 
         public void Run (IEcsSystems systems) {
             foreach (var entity in _filter.Value) {
@@ -21,7 +21,7 @@ namespace Client {
                     
                     switch (touch.phase) {
                         case(TouchPhase.Began):
-                            startPos = touch.position;
+                            _startPos = touch.position;
                             break;
                         case(TouchPhase.Moved):
                             Vector2 touchDeltaPosition = touch.deltaPosition;
@@ -29,8 +29,8 @@ namespace Client {
                             playerTransform.Translate(moveDirection * Time.fixedDeltaTime);
                             break;
                         case(TouchPhase.Stationary):
-                            direction = touch.position - startPos;
-                            var moveDirectionStationary = new Vector3(direction.x * 0.05f, 0, 0);
+                            _direction = touch.position - _startPos;
+                            var moveDirectionStationary = new Vector3(_direction.x * 0.05f, 0, 0);
                             playerTransform.Translate(moveDirectionStationary * Time.fixedDeltaTime);
                             break;
                         default:

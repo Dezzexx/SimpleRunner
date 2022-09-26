@@ -12,7 +12,7 @@ namespace Client {
 
                 timerComponent.TimeBetweenFrames += Time.deltaTime;
                 
-                if (timerComponent.TimeBetweenFrames > 4.01f) {
+                if (timerComponent.TimeBetweenFrames > 2.01f) {
                     timerComponent.TimeBetweenFrames = 0f;
                 }
             }

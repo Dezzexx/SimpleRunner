@@ -16,7 +16,7 @@ namespace Client {
                 var randomSpawnPos = Random.Range(0, _sceneData.Value.BrainSpawnPoints.Count);
                 var spawnPos = _sceneData.Value.BrainSpawnPoints[randomSpawnPos];
 
-                if (timerComponent.TimeBetweenFrames > 4f) {
+                if (timerComponent.TimeBetweenFrames > 2f) {
                     var brainGameObject = GameObject.Instantiate(brainComponent.BrainPrefab, spawnPos.position, Quaternion.identity);
                     brainComponent.brainTransform.Add(brainGameObject.transform);
                 }
