@@ -4,19 +4,21 @@ using UnityEngine;
 
 namespace Client {
     sealed class BrainSpawnSystem : IEcsRunSystem {  
-        readonly EcsFilterInject<Inc<BrainComponent, TimeComponent>> _filter = default;
+        readonly EcsFilterInject<Inc<TimerComponent, BrainComponent>> _filter = default;
+        readonly EcsCustomInject<SceneData> _sceneData = default;
         readonly EcsPoolInject<BrainComponent> _brainPool = default;
-        readonly EcsPoolInject<TimeComponent> _timerPool = default;  
-        readonly EcsCustomInject<StaticData> _staticData= default;
+        readonly EcsPoolInject<TimerComponent> _timerPool = default;  
 
         public void Run (IEcsSystems systems) {
             foreach (var entity in _filter.Value) {
+                ref TimerComponent timerComponent = ref _timerPool.Value.Get(entity);
                 ref BrainComponent brainComponent = ref _brainPool.Value.Get(entity);
-                ref TimeComponent timerComponent = ref _timerPool.Value.Get(entity);
-                var spawnPos = new Vector3(-4f, 2.5f, 263f);
+                var randomSpawnPos = Random.Range(0, _sceneData.Value.BrainSpawnPoints.Count);
+                var spawnPos = _sceneData.Value.BrainSpawnPoints[randomSpawnPos];
 
-                if (timerComponent.TimeBetweenFrames >= 2f) {
-                    var brainGameObject = GameObject.Instantiate(brainComponent.BrainPrefab, spawnPos, Quaternion.identity);
+                if (timerComponent.TimeBetweenFrames > 4f) {
+                    var brainGameObject = GameObject.Instantiate(brainComponent.BrainPrefab, spawnPos.position, Quaternion.identity);
+                    brainComponent.brainTransform.Add(brainGameObject.transform);
                 }
             }
         }

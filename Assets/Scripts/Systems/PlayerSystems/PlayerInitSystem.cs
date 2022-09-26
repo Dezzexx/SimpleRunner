@@ -7,7 +7,7 @@ namespace Client {
         readonly EcsPoolInject<PlayerComponent> _playerComponentPool = default;
         readonly EcsWorldInject _world = default;
         
-        private float _playerSpeed = 0.25f;
+        private float _playerSpeed = 0.4f;
         private float _maxLeftBound = -10f;
         private float _maxRightBound = -3f;
         

@@ -3,7 +3,7 @@ using Leopotam.EcsLite.Di;
 
 namespace Client {
     sealed class TimerInitSystem : IEcsInitSystem {
-        readonly EcsPoolInject<TimeComponent> _timerPool = default;
+        readonly EcsPoolInject<TimerComponent> _timerPool = default;
         readonly EcsWorldInject _world = default;
 
         private float _timeBetweenFrames = 0;

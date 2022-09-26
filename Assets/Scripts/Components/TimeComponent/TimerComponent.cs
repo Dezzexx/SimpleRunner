@@ -1,5 +1,5 @@
 namespace Client {
-    struct TimeComponent {
+    struct TimerComponent {
         public float TimeBetweenFrames;
     }
 }

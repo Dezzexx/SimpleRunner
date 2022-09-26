@@ -12,8 +12,14 @@ namespace Client {
                 ref BrainComponent brainComponent = ref _brainPool.Value.Get(entity);
                 
                 Quaternion rotationY = Quaternion.AngleAxis(brainComponent.RotationAngle * brainComponent.RotationSpeed, Vector3.up);
-                brainComponent.Transform.position -= Vector3.forward * brainComponent.Speed * Time.deltaTime;
-                brainComponent.Transform.rotation *= rotationY;
+                for (int i = 0; i < brainComponent.brainTransform.Count; i++) {
+                    brainComponent.brainTransform[i].position -= Vector3.forward * brainComponent.Speed * Time.deltaTime;
+                    brainComponent.brainTransform[i].rotation *= rotationY;
+                    if (brainComponent.brainTransform[i].position.z < -120) {
+                        brainComponent.brainTransform[i].gameObject.SetActive(false);
+                        brainComponent.brainTransform.RemoveAt(i);
+                    }
+                }
             }
         }
     }
