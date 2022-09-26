@@ -14,7 +14,7 @@ namespace Client {
                 var brainPosition = other.gameObject.transform.position;
                 var brainExplosion = GameObject.Instantiate(_praticleBrainDestroy, brainPosition, Quaternion.identity);
                 other.gameObject.SetActive(false);
-                
+
                 ref var collectEventComponent = ref World.GetPool<CollectEvent>().Add(World.NewEntity());
                 collectEventComponent.CollectibleValue = 1;
             }
